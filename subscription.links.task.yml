@@ -1,0 +1,8 @@
+entity.subscription.page_edit:
+  route_name: entity.subscription.edit_form
+  title: Edit
+
+entity.subscription.delete_confirm:
+  route_name:  entity.subscription.delete_form
+  title: Delete
+  weight: 10

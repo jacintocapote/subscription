@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * Contains subscription.module
+ */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function subscription_views_data_alter(array &$data) {
+  $data['subscriptions']['status']['filter']['id'] = 'list_field';
+}
+
+
+/**
+* Implements hook_mail().
+*/
+function subscription_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'create_subscription':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Subscription created: @full_name', ['@full_name' => $params['full_name']]);
+      $body_data = [
+        '#theme' => 'notify_subscription',
+        '#submitted_data' => $params
+      ];
+
+      $message['body'][] = \Drupal::service('renderer')->render($body_data);
+     break;
+    case 'deny_subscription':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Subscription denied: @full_name', ['@full_name' => $params['full_name']]);
+      $body_data = [
+        '#theme' => 'deny_subscription',
+        '#submitted_data' => $params
+      ];
+
+      $message['body'][] = \Drupal::service('renderer')->render($body_data);
+     break;
+    case 'approve_subscription':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Subscription approved: @full_name', ['@full_name' => $params['full_name']]);
+      $body_data = [
+        '#theme' => 'approve_subscription',
+        '#submitted_data' => $params
+      ];
+
+      $message['body'][] = \Drupal::service('renderer')->render($body_data);
+     break;
+
+ }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function subscription_theme() {
+  return [
+    'notify_subscription' => [
+        'template' => 'notify-subscription',
+        'variables' => ['submitted_data'=>[]],
+    ],
+    'approve_subscription' => [
+        'template' => 'approve-subscription',
+        'variables' => ['submitted_data'=>[]],
+    ],
+    'deny_subscription' => [
+        'template' => 'deny-subscription',
+        'variables' => ['submitted_data'=>[]],
+    ],
+  ];
+}

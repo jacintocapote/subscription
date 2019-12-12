@@ -1,0 +1,7 @@
+# Define the menu links.
+
+entity.subscription.collection:
+  title: 'Subscription: Entity Listing'
+  route_name: entity.subscription.collection
+  description: 'List Subsriptions'
+  weight: 10

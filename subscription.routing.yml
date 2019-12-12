@@ -1,0 +1,55 @@
+entity.subscription.collection:
+  path: '/subscription/list'
+  defaults:
+    _entity_list: 'subscription'
+    _title: 'subscription List'
+  requirements:
+    _permission: 'view subscription entity'
+
+entity.dictionary.term_add:
+  path: '/subscription/add'
+  defaults:
+    _entity_form: subscription.add
+    _title: 'Add subscription'
+  requirements:
+    _entity_create_access: 'subscription'
+
+entity.subscription.edit_form:
+  path: '/subscription/{subscription}/edit'
+  defaults:
+    _entity_form: subscription.edit
+    _title: 'Edit subscription'
+  requirements:
+    _entity_access: 'subscription.edit'
+
+entity.subscription.approve_form:
+  path: '/subscription/{subscription}/approve'
+  defaults:
+    _entity_form: subscription.approve
+    _title: 'Approve subscription'
+  requirements:
+    _entity_access: 'subscription.edit'
+
+entity.subscription.deny_form:
+  path: '/subscription/{subscription}/deny'
+  defaults:
+    _entity_form: subscription.deny
+    _title: 'Deny subscription'
+  requirements:
+    _entity_access: 'subscription.edit'
+
+entity.subscription.delete_form:
+  path: '/subscription/{subscription}/delete'
+  defaults:
+    _entity_form: subscription.delete
+    _title: 'Delete subscription'
+  requirements:
+    _entity_access: 'subscription.delete'
+
+subscription.settings:
+  path: '/admin/config/Subscription'
+  defaults:
+    _form: '\Drupal\subscription\Form\SubscriptionSettingsForm'
+    _title: 'Subscription'
+  requirements:
+    _permission: 'administer subscription entity'

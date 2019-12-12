@@ -1,0 +1,10 @@
+'delete subscription entity':
+  title: Delete subscription entity content.
+'add subscription entity':
+  title: Add subscription entity content
+'view subscription entity':
+  title: View subscription entity content
+'edit subscription entity':
+  title: Edit subscription entity content
+'administer subscription entity':
+  title: Administer subscription settings

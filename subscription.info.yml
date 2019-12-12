@@ -1,0 +1,5 @@
+name: Subscription
+type: module
+description: Custom entities for manage subscriptions
+core: 8.x
+package: Application
