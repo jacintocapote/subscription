@@ -5,3 +5,9 @@ entity.subscription.collection:
   route_name: entity.subscription.collection
   description: 'List Subsriptions'
   weight: 10
+entity.subscription.settings:
+  title: 'Subscription'
+  parent: system.admin_config_system
+  description: 'Subscription configuration.'
+  weight: -10
+  route_name: subscription.settings

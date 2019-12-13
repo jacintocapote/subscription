@@ -47,7 +47,7 @@ entity.subscription.delete_form:
     _entity_access: 'subscription.delete'
 
 subscription.settings:
-  path: '/admin/config/Subscription'
+  path: '/admin/config/system/Subscription'
   defaults:
     _form: '\Drupal\subscription\Form\SubscriptionSettingsForm'
     _title: 'Subscription'

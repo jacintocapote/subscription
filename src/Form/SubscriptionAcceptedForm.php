@@ -9,6 +9,13 @@ namespace Drupal\subscription\Form;
 
 use Drupal\Core\Entity\ContentEntityConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Url;
 
 /**
@@ -19,10 +26,60 @@ use Drupal\Core\Url;
 class SubscriptionAcceptedForm extends ContentEntityConfirmFormBase {
 
   /**
+   * Configuration Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The mail manager.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  protected $mailManager;
+
+  /**
+   * The language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+
+  /**
+   * Constructor.
+   */
+  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL, ConfigFactoryInterface $configFactory, MailManagerInterface $mail_manager, LanguageManagerInterface $language_manager) {
+    $this->entityRepository = $entity_repository;
+    $this->entityTypeBundleInfo = $entity_type_bundle_info ?: \Drupal::service('entity_type.bundle.info');
+    $this->time = $time ?: \Drupal::service('datetime.time');
+    $this->configFactory = $configFactory;
+    $this->mailManager = $mail_manager;
+    $this->languageManager = $language_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    // Instantiates this form class.
+    return new static(
+      // Load the service required to construct this class.
+      $container->get('entity.repository'),
+      $container->get('entity_type.bundle.info'),
+      $container->get('datetime.time'),
+      $container->get('config.factory'),
+      $container->get('plugin.manager.mail'),
+      $container->get('language_manager')
+    );
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Are you sure you want to approve entity %name?', array('%name' => $this->entity->label()));
+    return $this->t('Are you sure you want to approve entity %name?', ['%name' => $this->entity->name->value]);
   }
 
   /**
@@ -52,6 +109,11 @@ class SubscriptionAcceptedForm extends ContentEntityConfirmFormBase {
     $entity->save();
 
     $this->notify($entity);
+
+    drupal_set_message($this->t('Accepted %title successful.',
+    [
+        '%title' => $this->entity->name->value,
+    ]));
 
     $this->logger('subscription')->notice('Accepted %title.',
       array(

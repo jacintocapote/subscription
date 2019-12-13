@@ -113,6 +113,12 @@ class SubscriptionDeniedForm extends ContentEntityConfirmFormBase {
       [
         '%title' => $this->entity->name->value,
       ]);
+
+    drupal_set_message($this->t('Denied %title successful.',
+    [
+        '%title' => $this->entity->name->value,
+    ]));
+
     // Redirect to term list after delete.
     $form_state->setRedirect('entity.subscription.collection');
   }

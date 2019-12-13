@@ -50,6 +50,11 @@ class SubscriptionDeleteForm extends ContentEntityConfirmFormBase {
     $entity = $this->getEntity();
     $entity->delete();
 
+    drupal_set_message($this->t('Deleted %title successful.',
+    [
+        '%title' => $this->entity->name->value,
+    ]));
+
     $this->logger('subscription')->notice('deleted %title.',
       array(
         '%title' => $this->entity->name->value,

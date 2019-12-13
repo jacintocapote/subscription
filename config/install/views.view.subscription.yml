@@ -7,6 +7,8 @@ dependencies:
     - options
     - subscription
     - user
+_core:
+  default_config_hash: efRF_WG6GMxiYIQ5q5fbl6b3kBwEaGVUJObjcAH9OwI
 id: subscriptions
 label: Subscriptions
 module: views
@@ -640,7 +642,20 @@ display:
       title: Subscriptions
       header: {  }
       footer: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content:
+            value: 'You don''t have any item to administer'
+            format: basic_html
+          plugin_id: text
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
@@ -672,4 +687,3 @@ display:
         - user
         - user.permissions
       tags: {  }
-
