@@ -156,7 +156,6 @@ class Subscription extends ContentEntityBase {
       ->setDescription(t('The time that the entity was last edited.'))
       ->setRequired(TRUE);
 
-
     return $fields;
   }
 

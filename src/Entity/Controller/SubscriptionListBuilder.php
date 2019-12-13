@@ -71,7 +71,6 @@ class SubscriptionListBuilder extends EntityListBuilder {
       ->loadMultiple($ids);
   }
 
-
   /**
    * {@inheritdoc}
    *

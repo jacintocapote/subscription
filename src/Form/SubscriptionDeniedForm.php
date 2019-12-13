@@ -107,6 +107,7 @@ class SubscriptionDeniedForm extends ContentEntityConfirmFormBase {
     $entity = $this->getEntity();
     $entity->set('status', 'denied');
     $entity->save();
+    $this->notify($entity);
 
     $this->logger('subscription')->notice('Denied %title.',
       [
@@ -116,6 +117,9 @@ class SubscriptionDeniedForm extends ContentEntityConfirmFormBase {
     $form_state->setRedirect('entity.subscription.collection');
   }
 
+  /**
+   * Notify to user created the request.
+   */
   private function notify($entity) {
     $language = $this->languageManager->getCurrentLanguage();
     $config = $this->configFactory->get('subscription.settings');
